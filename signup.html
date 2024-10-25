@@ -37,4 +37,26 @@
   </div>
 
 </body>
+  <!-- Inside signup.html -->
+<script type="module">
+  import { auth, createUserWithEmailAndPassword, sendEmailVerification } from "./firebase.js";
+
+  document.querySelector('form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.querySelector('input[placeholder="Enter your email"]').value;
+    const password = document.querySelector('input[placeholder="Create password"]').value;
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Send verification email
+      await sendEmailVerification(user);
+      alert("Registration successful! Please check your email to verify your account.");
+    } catch (error) {
+      alert("Error: " + error.message);
+    }
+  });
+</script>
+  
 </html>
