@@ -49,6 +49,30 @@
       });
     </script>
 
+<!-- Inside login.html -->
+<script type="module">
+  import { auth, signInWithEmailAndPassword } from "./firebase.js";
 
+  document.querySelector('form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.querySelector('input[placeholder="Email or Phone"]').value;
+    const password = document.querySelector('input[placeholder="Password"]').value;
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      if (user.emailVerified) {
+        alert("Login successful!");
+        window.location.href = "index.html";
+      } else {
+        alert("Please verify your email before logging in.");
+      }
+    } catch (error) {
+      alert("Error: " + error.message + ". If you don't have an account, please sign up.");
+    }
+  });
+</script>
+    
   </body>
 </html>
