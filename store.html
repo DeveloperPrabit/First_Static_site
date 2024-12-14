@@ -15,63 +15,76 @@
     <a href="index.html">Home</a>
     <a href="contact.html">Contact</a>
 </div>
+
 <div class="store-container">
+    <!-- Product 1 -->
     <div class="product" data-name="macbook air 13 pro">
         <img src="macbookair13pro.jpeg" alt="macbook air 13 pro">
-        <h3>macbookair13pro</h3>
+        <h3>MacBook Air 13 Pro</h3>
         <p>$1200.00</p>
         <button onclick="addToCart('MacBook Air 13 Pro', 1200.00)">Add to Cart</button>
-        <button onclick="buyNow('MacBook Air 13 Pro', 1200.00)">Buy Now</button>
     </div>
+    <!-- Product 2 -->
     <div class="product" data-name="playstation 5">
-        <img src="ps5.jpeg" alt="playstation 5">
+        <img src="ps5.jpeg" alt="Playstation 5">
         <h3>Playstation 5</h3>
         <p>$499.99</p>
-        <button onclick="addToCart('PlayStation 5', 499.99)">Add to Cart</button>
-        <button onclick="buyNow('PlayStation 5', 499.99)">Buy Now</button>
-    </div>
-
-    <!-- Add more products as needed -->
-
-    <div class="cart">
-        <h2>Shopping Cart</h2>
-        <ul id="cart-items">
-            <!-- Cart items will be dynamically added here -->
-        </ul>
-        <p>Total: $<span id="cart-total">0.00</span></p>
+        <button onclick="addToCart('Playstation 5', 499.99)">Add to Cart</button>
     </div>
 </div>
 
+<!-- Shopping Cart -->
+<div class="cart">
+    <h2>Shopping Cart</h2>
+    <ul id="cart-items">
+        <!-- Cart items will display here -->
+    </ul>
+    <p>Total: $<span id="cart-total">0.00</span></p>
+</div>
+
 <script>
-    const cartItems = [];
+    let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
     let total = 0;
 
+    // Function to add to cart
     function addToCart(productName, productPrice) {
         cartItems.push({ name: productName, price: productPrice });
-        total += productPrice;
+        localStorage.setItem('cart', JSON.stringify(cartItems));
         updateCartUI();
     }
 
-    function buyNow(productName, productPrice) {
-        alert(`Thank you for purchasing: ${productName} for $${productPrice.toFixed(2)}!`);
-        // Optionally, redirect to a checkout page
-        // window.location.href = "checkout.html";
+    // Function to remove item after buying
+    function buyNow(index) {
+        const purchasedItem = cartItems.splice(index, 1)[0];
+        alert(`Thank you for purchasing: ${purchasedItem.name} for $${purchasedItem.price.toFixed(2)}!`);
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+        updateCartUI();
     }
 
+    // Update cart UI
     function updateCartUI() {
         const cartList = document.getElementById('cart-items');
         const cartTotal = document.getElementById('cart-total');
-
-        // Clear cart list before re-rendering
         cartList.innerHTML = '';
-        cartItems.forEach(item => {
+        total = 0;
+
+        cartItems.forEach((item, index) => {
+            total += item.price;
+
             const li = document.createElement('li');
-            li.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+            li.innerHTML = `
+                ${item.name} - $${item.price.toFixed(2)} 
+                <button onclick="buyNow(${index})" style="margin-left: 10px; color: white; background: green; border: none; padding: 5px;">Buy Now</button>
+            `;
             cartList.appendChild(li);
         });
 
         cartTotal.textContent = total.toFixed(2);
     }
+
+    // Initial UI load
+    updateCartUI();
 </script>
+
 </body>
 </html>
