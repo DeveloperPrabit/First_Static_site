@@ -6,92 +6,95 @@
     <link rel="stylesheet" href="store.css">
     <title>Online Store</title>
     <style>
-        /* Basic Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Global Styles */
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             background-color: #f4f4f4;
-            padding: 20px;
+            color: black;
         }
 
-        /* Navbar Styles */
-        #navbar {
-            background-color: #333;
+        h2, h3 {
+            color: black;
+        }
+
+        /* Search Bar */
+        .search-container {
             padding: 10px;
             text-align: center;
-        }
-
-        #navbar a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 18px;
-        }
-
-        #navbar a:hover {
-            color: #f4f4f4;
-        }
-
-        /* Search Bar Styles */
-        .search-container {
-            text-align: center;
-            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .search-container input {
             padding: 10px;
+            width: 80%;
             font-size: 16px;
-            width: 300px;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            border: 1px solid #ccc;
         }
 
-        /* Store Container Styles */
+        /* Navbar */
+        #navbar {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        #navbar a {
+            color: white;
+            padding: 14px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        #navbar a:hover {
+            background-color: #575757;
+        }
+
+        /* Store Container */
         .store-container {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
+            flex-wrap: wrap;
+            padding: 20px;
         }
 
         .product {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 220px;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 200px;
             text-align: center;
-            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .product img {
             width: 100%;
             height: auto;
-            border-radius: 10px;
+            border-radius: 5px;
         }
 
         .product h3 {
-            margin: 10px 0;
+            margin: 15px 0;
             font-size: 18px;
         }
 
         .product p {
             font-size: 16px;
-            margin: 10px 0;
+            color: #888;
         }
 
         .product button {
+            padding: 10px;
             background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 10px 20px;
-            cursor: pointer;
             border-radius: 5px;
-            font-size: 16px;
+            cursor: pointer;
         }
 
         .product button:hover {
@@ -99,7 +102,7 @@
         }
 
         /* "Nothing Found" Message */
-        #not-found {
+        .not-found {
             display: none;
             text-align: center;
             font-size: 18px;
@@ -107,57 +110,43 @@
             margin-top: 20px;
         }
 
-        /* Cart Styles */
+        /* Shopping Cart */
         .cart {
-            margin-top: 40px;
-            background-color: white;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 250px;
+            background-color: #fff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cart h2 {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .cart ul {
-            list-style: none;
+            list-style-type: none;
             padding: 0;
         }
 
         .cart ul li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             margin-bottom: 10px;
-            font-size: 16px;
         }
 
         .cart p {
-            text-align: center;
             font-size: 18px;
-            margin-top: 20px;
+            font-weight: bold;
         }
 
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .store-container {
-                flex-direction: column;
-                align-items: center;
-            }
+        .cart button {
+            padding: 8px;
+            background-color: #ff5733;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-            .product {
-                width: 90%;
-            }
-
-            .cart {
-                width: 90%;
-            }
+        .cart button:hover {
+            background-color: #c04e2a;
         }
     </style>
 </head>
@@ -235,7 +224,7 @@
                 total += item.price;
 
                 const li = document.createElement('li');
-                li.innerHTML = `
+                li.innerHTML = ` 
                     ${item.name} - $${item.price.toFixed(2)} 
                     <button onclick="buyNow(${index})" style="margin-left: 10px; color: white; background: green; border: none; padding: 5px;">Buy Now</button>
                 `;
